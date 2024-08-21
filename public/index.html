@@ -1,0 +1,239 @@
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Imposter</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #gameContainer, #chatContainer {
+            display: none;
+            margin-top: 20px;
+        }
+        #chatContainer {
+            margin-top: 20px;
+            text-align: left;
+        }
+        #messages {
+            list-style-type: none;
+            padding: 0;
+        }
+        #messages li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="startContainer" class="container">
+        <h1>Welcome to The Imposter</h1>
+        <button id="startButton">Start Game</button>
+    </div>
+    <div id="gameContainer" class="container">
+        <div id="word"></div>
+    </div>
+    <div id="chatContainer" class="container">
+        <input id="sentenceInput" type="text" placeholder="Enter your sentence">
+        <button id="sendButton">Send</button>
+        <ul id="messages"></ul>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Imposter</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+        }
+        #startContainer, #gameContainer, #chatContainer {
+            display: none;
+        }
+        #startContainer.active, #gameContainer.active, #chatContainer.active {
+            display: block;
+        }
+        #gameContainer {
+            margin-bottom: 20px;
+        }
+        #word {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        #sentenceInput {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        #sendButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #sendButton:hover {
+            background-color: #0056b3;
+        }
+        #messages {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        #messages li {
+            background-color: #e9ecef;
+            margin-bottom: 5px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div id="startContainer" class="container active">
+        <h1>Welcome to The Imposter</h1>
+        <button id="startButton">Start Game</button>
+    </div>
+
+    <div id="gameContainer" class="container">
+        <div id="word">Your word will appear here</div>
+    </div>
+
+    <div id="chatContainer" class="container">
+        <input id="sentenceInput" type="text" placeholder="Enter your sentence">
+        <button id="sendButton">Send</button>
+        <ul id="messages"></ul>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        document.getElementById('startButton').addEventListener('click', function() {
+            socket.emit('startGame');
+        });
+
+        socket.on('assignWords', ({ word }) => {
+            if (word) {
+                document.getElementById('word').textContent = `Your word is: ${word}`;
+            } else {
+                document.getElementById('word').textContent = "Error: No word assigned.";
+            }
+
+            document.getElementById('startContainer').classList.remove('active');
+            document.getElementById('gameContainer').classList.add('active');
+            document.getElementById('chatContainer').classList.add('active');
+        });
+
+        document.getElementById('sendButton').onclick = () => {
+            const sentenceInput = document.getElementById('sentenceInput');
+            const sentence = sentenceInput.value.trim();
+            if (sentence) {
+                socket.emit('submitSentence', sentence);
+                sentenceInput.value = '';
+            }
+        };
+
+        socket.on('receiveSentence', (sentence) => {
+            const messages = document.getElementById('messages');
+            const li = document.createElement('li');
+            li.textContent = sentence;
+            messages.appendChild(li);
+        });
+    </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Imposter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="nameContainer">
+        <h1>Welcome to The Imposter</h1>
+        <input id="playerNameInput" type="text" placeholder="Enter your name">
+        <button id="createRoomButton">Create Room</button>
+        <button id="joinRoomButton">Join Room</button>
+        <input id="roomCodeInput" type="text" placeholder="Enter room code" style="display: none;">
+        <div id="roomCodeDisplay"></div>
+    </div>
+
+    <div id="waitingContainer" style="display: none;">
+        <h2>Waiting for players...</h2>
+        <ul id="playersList"></ul>
+    </div>
+
+    <div id="gameContainer" style="display: none;">
+        <h1>The Imposter</h1>
+        <div id="playerNameDisplay"></div>
+        <div id="wordDisplay"></div>
+        <input id="sentenceInput" type="text" placeholder="Enter your sentence">
+        <button id="sendButton">Send</button>
+        <button id="callVoteButton" style="display: none;">Call Vote</button>
+        <ul id="messages"></ul>
+        <div id="voteContainer" style="display: none;">
+            <h2>Vote for the Imposter</h2>
+            <ul id="playerListForVote"></ul>
+            <div id="votesDisplay"></div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
+
