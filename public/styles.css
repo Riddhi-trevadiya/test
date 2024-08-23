@@ -17,6 +17,14 @@ h1 {
     color: #333;
 }
 
+input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
 button {
     padding: 10px 20px;
     font-size: 16px;
@@ -32,40 +40,22 @@ button:hover {
     background-color: #0056b3;
 }
 
-input {
-    padding: 10px;
-    font-size: 16px;
+#wordDisplay, #playerNameDisplay {
     margin: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
 }
 
-#waitingContainer {
-    display: none;
-}
-
-#gameContainer {
-    display: none;
-}
-
-#voteContainer {
-    display: none;
-}
-
-ul {
+#playersList, #messages, #playerListForVote, #votesDisplay {
     list-style-type: none;
     padding: 0;
 }
 
-li {
+#playersList li, #messages li, #playerListForVote li, #votesDisplay li {
     padding: 5px;
     border-bottom: 1px solid #ddd;
 }
 
-#wordDisplay {
-    margin: 10px 0;
-}
-
-#callVoteButton {
-    margin-top: 20px;
+#roomCodeDisplay {
+    font-size: 20px;
+    margin: 20px;
+    color: #333; /* Ensure text color is visible */
 }

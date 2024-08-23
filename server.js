@@ -75,7 +75,6 @@ io.on("connection", (socket) => {
             votes: {} 
         };
         socket.join(roomCode);
-        callback({ roomCode, players: rooms[roomCode].players });
         io.to(socket.id).emit('displayRoomCode', roomCode);
         io.to(socket.id).emit('updateRoom', rooms[roomCode].players);
     });

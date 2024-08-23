@@ -35,7 +35,7 @@ document.getElementById('createRoomButton').addEventListener('click', () => {
         socket.emit('createRoom', playerName, ({ roomCode, players }) => {
             document.getElementById('nameContainer').style.display = 'none';
             document.getElementById('waitingContainer').style.display = 'block';
-            document.getElementById('roomCodeDisplay').textContent = roomCode;
+            document.getElementById('roomCodeDisplay').textContent = `Room Code: ${roomCode}`;
             document.getElementById('roomCodeInput').style.display = 'none'; // Hide room code input after creation
             updatePlayersList(players);
         });
@@ -67,7 +67,7 @@ socket.on('updateRoom', (players) => {
 });
 
 socket.on('displayRoomCode', (roomCode) => {
-    document.getElementById('roomCodeDisplay').textContent = roomCode;
+    document.getElementById('roomCodeDisplay').textContent = `Room Code: ${roomCode}`;
 });
 
 socket.on('assignWords', (wordAssignments) => {
@@ -92,7 +92,7 @@ function updatePlayersList(players) {
 document.getElementById('sendButton').addEventListener('click', () => {
     const sentence = document.getElementById('sentenceInput').value.trim();
     if (sentence) {
-        socket.emit('submitSentence', { roomCode: document.getElementById('roomCodeDisplay').textContent, sentence });
+        socket.emit('submitSentence', { roomCode: document.getElementById('roomCodeDisplay').textContent.replace('Room Code: ', ''), sentence });
         document.getElementById('sentenceInput').value = '';
     }
 });
@@ -105,7 +105,7 @@ socket.on('receiveSentence', ({ sentence, playerName }) => {
 });
 
 document.getElementById('callVoteButton').addEventListener('click', () => {
-    socket.emit('callVote', document.getElementById('roomCodeDisplay').textContent);
+    socket.emit('callVote', document.getElementById('roomCodeDisplay').textContent.replace('Room Code: ', ''));
 });
 
 socket.on('startVote', (playerNames) => {
@@ -116,7 +116,7 @@ socket.on('startVote', (playerNames) => {
         const li = document.createElement('li');
         li.textContent = name;
         li.addEventListener('click', () => {
-            socket.emit('vote', { roomCode: document.getElementById('roomCodeDisplay').textContent, votedPlayerName: name });
+            socket.emit('vote', { roomCode: document.getElementById('roomCodeDisplay').textContent.replace('Room Code: ', ''), votedPlayerName: name });
         });
         playerListForVote.appendChild(li);
     });
@@ -131,6 +131,12 @@ socket.on('updateVotes', (votes) => {
         votesDisplay.appendChild(li);
     }
 });
+
+
+
+
+
+
 
 
 
